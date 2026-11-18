@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SIT725 - 2.2P Express Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; }
+    input, select, button { padding: 8px; margin: 4px; font-size: 16px; }
+    #result { margin-top: 15px; font-size: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Hello from my Express server!</h1>
+  <p>SIT725 Task 2.2P - Haider Kamran (s226547746)</p>
+
+  <h2>Calculator</h2>
+  <input type="number" id="a" placeholder="First number">
+  <select id="op">
+    <option value="add">+</option>
+    <option value="subtract">-</option>
+    <option value="multiply">x</option>
+    <option value="divide">/</option>
+  </select>
+  <input type="number" id="b" placeholder="Second number">
+  <button onclick="calculate()">Calculate</button>
+  <div id="result"></div>
+
+  <script>
+    async function calculate() {
+      const a = document.getElementById("a").value;
+      const b = document.getElementById("b").value;
+      const op = document.getElementById("op").value;
+      const res = await fetch(`/${op}?a=${a}&b=${b}`);
+      const data = await res.json();
+      document.getElementById("result").textContent =
+        data.error ? "Error: " + data.error : "Result: " + data.result;
+    }
+  </script>
+</body>
+</html>
