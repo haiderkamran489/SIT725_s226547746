@@ -1,9 +1,15 @@
-# Node.js
+# Dependencies
 node_modules/
+
+# Logs
+*.log
 npm-debug.log*
 
-# Environment variables
+# Environment (safe even if unused)
 .env
+.env.*.local
 
-# macOS system files
+# OS/editor
 .DS_Store
+Thumbs.db
+.vscode/

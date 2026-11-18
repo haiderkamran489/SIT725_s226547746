@@ -2,39 +2,69 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SIT725 - 2.2P Express Calculator</title>
+  <title>SIT725 - 2.2P Express Web Server</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; }
+    body { font-family: Arial, sans-serif; max-width: 650px; margin: 40px auto; }
+    section { border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
     input, select, button { padding: 8px; margin: 4px; font-size: 16px; }
-    #result { margin-top: 15px; font-size: 20px; font-weight: bold; }
+    .out { margin-top: 10px; font-size: 18px; font-weight: bold; }
   </style>
 </head>
 <body>
-  <h1>Hello from my Express server!</h1>
-  <p>SIT725 Task 2.2P - Haider Kamran (s226547746)</p>
+  <h1>SIT725 Task 2.2P - Express Web Server</h1>
+  <p>Haider Kamran (s226547746)</p>
 
-  <h2>Calculator</h2>
-  <input type="number" id="a" placeholder="First number">
-  <select id="op">
-    <option value="add">+</option>
-    <option value="subtract">-</option>
-    <option value="multiply">x</option>
-    <option value="divide">/</option>
-  </select>
-  <input type="number" id="b" placeholder="Second number">
-  <button onclick="calculate()">Calculate</button>
-  <div id="result"></div>
+  <section>
+    <h2>Random Quote API</h2>
+    <p>Click the button to get a random quote from the server:</p>
+    <button id="fetchQuoteBtn">Get Quote</button>
+    <p id="quoteDisplay" class="out"></p>
+  </section>
+
+  <section>
+    <h2>Square Calculator</h2>
+    <form action="/square" method="GET">
+      <label for="num">Enter a number:</label>
+      <input type="text" id="num" name="num" required>
+      <button type="submit">Calculate Square</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Calculator</h2>
+    <input type="number" id="a" placeholder="First number">
+    <select id="op">
+      <option value="add">+</option>
+      <option value="subtract">-</option>
+      <option value="multiply">x</option>
+      <option value="divide">/</option>
+    </select>
+    <input type="number" id="b" placeholder="Second number">
+    <button id="calcBtn">Calculate</button>
+    <div id="result" class="out"></div>
+  </section>
 
   <script>
-    async function calculate() {
+    // Quote: GET /api/quote
+    document.getElementById("fetchQuoteBtn").addEventListener("click", function () {
+      fetch("/api/quote")
+        .then(response => response.json())
+        .then(data => { document.getElementById("quoteDisplay").innerText = data.quote; })
+        .catch(() => { document.getElementById("quoteDisplay").innerText = "Error fetching quote."; });
+    });
+
+    // Calculator: GET /add, /subtract, /multiply, /divide
+    document.getElementById("calcBtn").addEventListener("click", function () {
       const a = document.getElementById("a").value;
       const b = document.getElementById("b").value;
       const op = document.getElementById("op").value;
-      const res = await fetch(`/${op}?a=${a}&b=${b}`);
-      const data = await res.json();
-      document.getElementById("result").textContent =
-        data.error ? "Error: " + data.error : "Result: " + data.result;
-    }
+      fetch(`/${op}?a=${a}&b=${b}`)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("result").innerText =
+            data.error ? "Error: " + data.error : "Result: " + data.result;
+        });
+    });
   </script>
 </body>
 </html>

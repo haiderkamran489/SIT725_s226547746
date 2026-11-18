@@ -1,13 +1,14 @@
 {
   "name": "2.2p",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "SIT725 2.2P Express web server with calculator REST API",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Haider Kamran",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
